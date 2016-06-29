@@ -1,0 +1,3 @@
+# BugOut
+
+Simple issue tracking.
