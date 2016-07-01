@@ -1,9 +1,11 @@
 # Environment normalisation:
 /.bundle
 /vendor/bundle
-
 # NOTE: these should all be checked in to normalise the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
+
+# Ignore Bundler dependency graphs. Can be updated as needed with `bundle viz`
+gem_graph.png
 
 # Ignore all logfiles and tempfiles.
 /log/*
