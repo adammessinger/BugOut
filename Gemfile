@@ -52,8 +52,9 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'quiet_assets'
 
-  gem 'rspec-rails'
-  gem 'shoulda-matchers'
+  # testing with RSpec
+  gem 'rspec-rails', '~> 3.0'
+  gem 'shoulda-matchers', '~> 3.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
