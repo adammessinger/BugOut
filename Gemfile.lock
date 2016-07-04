@@ -193,6 +193,7 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
@@ -218,7 +219,7 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 RUBY VERSION
-   ruby 2.0.0p598
+   ruby 2.0.0p648
 
 BUNDLED WITH
    1.12.5
