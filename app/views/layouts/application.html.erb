@@ -17,15 +17,8 @@
     </p>
 <% end %>
 
-<% flash.each do |type, content| %>
-  <% if content.respond_to?('each')
-    content.each do |item| %>
-      <%= render 'layouts/notification', type: type, content: item %>
-    <% end %>
-  <% else %>
-    <%= render 'layouts/notification', type: type, content: content %>
-  <% end %>
-<% end %>
+    <%= render_alerts %>
+
 
     <%= yield %>
   </div>
