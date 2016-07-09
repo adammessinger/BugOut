@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def bootstrap_class_for(flash_type)
     case flash_type.to_sym
     when :error, :alert
@@ -36,5 +35,4 @@ module ApplicationHelper
 
     safe_join(flashes, "\n")
   end
-
 end

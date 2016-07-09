@@ -55,13 +55,14 @@ class CommentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_bug
-      @bug = Bug.find(params[:bug_id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def comment_params
-      params.require(:comment).permit(:author_id, :bug_id, :body)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_bug
+    @bug = Bug.find(params[:bug_id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def comment_params
+    params.require(:comment).permit(:author_id, :bug_id, :body)
+  end
 end
