@@ -23,10 +23,12 @@
         <th>Title</th>
         <th>Assignee</th>
         <th>Tags</th>
-        <th>Closed</th>
+        <th>Closed?</th>
         <th>Opened</th>
         <th>Updated</th>
-        <th colspan="2"></th>
+        <th colspan="2">
+          <span class="sr-only">Actions</span>
+        </th>
       </tr>
     </thead>
 
@@ -35,9 +37,7 @@
         <tr>
           <td><%= bug.id %></td>
           <td>
-            <%= bug.closed ? raw('<del>') : '' %>
-            <%= link_to bug.title, bug %>
-            <%= bug.closed ? raw('</del>') : '' %>
+            <%= link_to (bug.closed ? content_tag(:s, bug.title) : bug.title), bug %>
           </td>
           <td class="<%= bug.assignee ? '' : 'bg-warning text-warning' %>">
             <%= bug.assignee ? bug.assignee.email : 'unassigned' %>
