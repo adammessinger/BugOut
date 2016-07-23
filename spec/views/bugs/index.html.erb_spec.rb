@@ -38,7 +38,7 @@ RSpec.describe 'bugs/index', type: :view do
         count: 1
       }
       assert_select 'div.panel-info > .panel-body', {
-        text: 'You don’t have any bugs yet. Click a “New Bug” button to create one.',
+        text: 'You don’t have any bugs yet. Click a “Report Bug” button to create one.',
         count: 1
       }
     end
