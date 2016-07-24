@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-# TODO: tests for tags, assignment (with / without)
-
 RSpec.describe 'bugs/index', type: :view do
   # This should return the minimal set of attributes required to create a valid
   # Bug. Remember to keep this up to date (or better, switch to fixtures or FactoryGirl).
@@ -117,6 +115,46 @@ RSpec.describe 'bugs/index', type: :view do
     it 'gives the "bg-danger" class to "Closed?" cell for unclosed bugs' do
       render
       assert_select 'tr > td:nth-child(5).bg-danger', { text: false.to_s, count: 1 }
+    end
+  end
+
+  context 'with tagged and untagged bugs' do
+    before(:each) do
+      bugs = []
+      ['urgent, wibbly, cromulent', nil].each do |t|
+        valid_attributes[:tags] = t
+        bugs << Bug.create!(valid_attributes)
+      end
+      assign :bugs, bugs
+    end
+
+    it 'shows tags in table for tagged bugs' do
+      render
+      assert_select 'tr > td:nth-child(4)', text: 'urgent, wibbly, cromulent', count: 1
+    end
+
+    it 'shows empty string in table for untagged bugs' do
+      render
+      assert_select 'tr > td:nth-child(4)', text: '', count: 1
+    end
+  end
+
+  context 'with assigned and unassigned bugs' do
+    before(:each) do
+      assigned_bug = Bug.new(valid_attributes)
+      assigned_bug.create_assignee email: 'jon@example.com', password: '29funaoiw3fuq345!@'
+      assigned_bug.save
+      assign :bugs, [assigned_bug, Bug.create!(valid_attributes)]
+    end
+
+    it 'shows asignee email address for assigned bugs' do
+      render
+      assert_select 'tr > td:nth-child(3)', text: 'jon@example.com', count: 1
+    end
+
+    it 'shows "unassigned" for unassigned bugs' do
+      render
+      assert_select 'tr > td:nth-child(3)', text: 'unassigned', count: 1
     end
   end
 end
