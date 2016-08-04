@@ -15,7 +15,7 @@ gem_graph.png
 
 # ignorable testing files
 capybara-*.html
-.rspec
+.rspec-local
 /coverage/
 
 # ignore secrets
