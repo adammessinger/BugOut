@@ -17,20 +17,18 @@ RSpec.describe 'bugs/index', type: :view do
       # NOTE: see https://github.com/rspec/rspec-rails/issues/396
       view.lookup_context.prefixes << 'application'
       assign :bugs, []
+      render
     end
 
     it 'has a "No Bugs!" heading' do
-      render
       assert_select 'h1', 'You’ve Got No Bugs!'
     end
 
     it 'does not render a table of bugs' do
-      render
       assert_select 'table', 0
     end
 
     it 'renders an info notification that there are no bugs' do
-      render
       assert_select 'div.panel-info > .panel-heading > .panel-title',
                     text: 'Nothing to See Here',
                     count: 1
@@ -43,10 +41,10 @@ RSpec.describe 'bugs/index', type: :view do
   context 'with 1 bug' do
     before(:each) do
       assign :bugs, [Bug.create!(valid_attributes)]
+      render
     end
 
     it 'has a "1 Bug" heading' do
-      render
       assert_select 'h1', 'You’ve Got 1 Bug'
     end
   end
@@ -56,15 +54,14 @@ RSpec.describe 'bugs/index', type: :view do
       bugs = []
       2.times { bugs << Bug.create!(valid_attributes) }
       assign :bugs, bugs
+      render
     end
 
     it 'has a "2 Bugs" heading' do
-      render
       assert_select 'h1', 'You’ve Got 2 Bugs'
     end
 
     it 'displays appropriate table headings' do
-      render
       assert_select 'thead th:nth-child(1)', text: 'ID', count: 1
       assert_select 'thead th:nth-child(2)', text: 'Title', count: 1
       assert_select 'thead th:nth-child(3)', text: 'Assignee', count: 1
@@ -76,7 +73,6 @@ RSpec.describe 'bugs/index', type: :view do
     end
 
     it 'renders a list of all bugs' do
-      render
       assert_select 'tr > td:nth-child(1)', text: /^\d+$/, count: 2
       assert_select 'tr > td:nth-child(2)', text: valid_attributes[:title], count: 2
       assert_select 'tr > td:nth-child(3)', text: 'unassigned', count: 2
@@ -97,21 +93,19 @@ RSpec.describe 'bugs/index', type: :view do
         bugs << Bug.create!(valid_attributes)
       end
       assign :bugs, bugs
+      render
     end
 
     it 'wraps closed bug titles in <s> tag' do
-      render
       assert_select 'tr > td:nth-child(2)', text: valid_attributes[:title], count: 2
       assert_select 'tr > td:nth-child(2) s', text: valid_attributes[:title], count: 1
     end
 
     it 'gives the "bg-success" class to "Closed?" cell for closed bugs' do
-      render
       assert_select 'tr > td:nth-child(5).bg-success', text: true.to_s, count: 1
     end
 
     it 'gives the "bg-danger" class to "Closed?" cell for unclosed bugs' do
-      render
       assert_select 'tr > td:nth-child(5).bg-danger', text: false.to_s, count: 1
     end
   end
@@ -124,15 +118,14 @@ RSpec.describe 'bugs/index', type: :view do
         bugs << Bug.create!(valid_attributes)
       end
       assign :bugs, bugs
+      render
     end
 
     it 'shows tags in table for tagged bugs' do
-      render
       assert_select 'tr > td:nth-child(4)', text: 'urgent, wibbly, cromulent', count: 1
     end
 
     it 'shows empty string in table for untagged bugs' do
-      render
       assert_select 'tr > td:nth-child(4)', text: '', count: 1
     end
   end
@@ -143,15 +136,14 @@ RSpec.describe 'bugs/index', type: :view do
       assigned_bug.create_assignee email: 'jon@example.com', password: '29funaoiw3fuq345!@'
       assigned_bug.save
       assign :bugs, [assigned_bug, Bug.create!(valid_attributes)]
+      render
     end
 
     it 'shows asignee email address for assigned bugs' do
-      render
       assert_select 'tr > td:nth-child(3)', text: 'jon@example.com', count: 1
     end
 
     it 'shows "unassigned" for unassigned bugs' do
-      render
       assert_select 'tr > td:nth-child(3)', text: 'unassigned', count: 1
     end
   end
