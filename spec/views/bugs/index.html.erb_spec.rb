@@ -143,8 +143,16 @@ RSpec.describe 'bugs/index', type: :view do
       assert_select 'tr > td:nth-child(3)', text: 'jon@example.com', count: 1
     end
 
+    it 'gives no class to assigned Asignee cell' do
+      assert_select 'tr > td:nth-child(3)[class=""]', text: 'jon@example.com', count: 1
+    end
+
     it 'shows "unassigned" for unassigned bugs' do
       assert_select 'tr > td:nth-child(3)', text: 'unassigned', count: 1
+    end
+
+    it 'gives "bg-warning" & "text-warning" classes to unassigned Asignee cell' do
+      assert_select 'tr > td:nth-child(3).bg-warning.text-warning', text: 'unassigned', count: 1
     end
   end
 end
