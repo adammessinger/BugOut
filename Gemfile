@@ -42,6 +42,9 @@ group :development do
 end
 
 group :development, :test do
+  gem 'rubocop'
+  gem 'fasterer'
+
   # Set environment variables in dev & test from a .env file
   gem 'dotenv-rails', '~> 2.1'
 
