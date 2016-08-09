@@ -50,8 +50,6 @@ RSpec.describe 'bugs/edit', type: :view do
         assert_select 'select#bug_assignee_id > option[selected][value=?]', @complete_bug.assignee_id.to_s
         assert_select 'textarea#bug_description', text: @complete_bug.description
         assert_select 'input#bug_tags[value=?]', @complete_bug.tags
-
-        # TODO: Figure out how to test checkbox value and why it's always 1 in rendered HTML.
         assert_select 'input#bug_closed[type=checkbox][checked]', (@complete_bug.closed ? 1 : 0)
       end
     end
