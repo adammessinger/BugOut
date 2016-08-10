@@ -77,7 +77,7 @@ RSpec.describe 'bugs/index', type: :view do
       assert_select 'tr > td:nth-child(2)', text: valid_attributes[:title], count: 2
       assert_select 'tr > td:nth-child(3)', text: 'unassigned', count: 2
       assert_select 'tr > td:nth-child(4)', text: '', count: 2
-      assert_select 'tr > td:nth-child(5)', text: false.to_s, count: 2
+      assert_select 'tr > td:nth-child(5)', text: 'No', count: 2
       assert_select 'tr > td:nth-child(6)', text: Time.now.strftime('%Y-%m-%d'), count: 2
       assert_select 'tr > td:nth-child(7)', text: Time.now.strftime('%Y-%m-%d'), count: 2
       assert_select 'tr > td:nth-child(8) > a[href^="/bugs/"][href$="/edit"]', text: 'Edit', count: 2
@@ -102,11 +102,11 @@ RSpec.describe 'bugs/index', type: :view do
     end
 
     it 'gives the "bg-success" class to "Closed?" cell for closed bugs' do
-      assert_select 'tr > td:nth-child(5).bg-success', text: true.to_s, count: 1
+      assert_select 'tr > td:nth-child(5).bg-success', text: 'Yes', count: 1
     end
 
     it 'gives the "bg-danger" class to "Closed?" cell for unclosed bugs' do
-      assert_select 'tr > td:nth-child(5).bg-danger', text: false.to_s, count: 1
+      assert_select 'tr > td:nth-child(5).bg-danger', text: 'No', count: 1
     end
   end
 

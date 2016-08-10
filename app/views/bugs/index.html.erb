@@ -46,7 +46,7 @@
           </td>
           <td><%= bug.tags %></td>
           <td class="<%= bug.closed ? 'bg-success' : 'bg-danger' %>">
-            <%= bug.closed %>
+            <%= bug.closed ? 'Yes' : 'No' %>
           </td>
           <td class="text-nowrap">
             <%= bug.created_at.to_time.strftime('%Y-%m-%d') %>
