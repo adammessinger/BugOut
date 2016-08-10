@@ -1,4 +1,9 @@
 module ApplicationHelper
+  def tf_to_yn(status = false, capitalize = true)
+    output = status ? 'yes' : 'no'
+    capitalize ? output.capitalize : output
+  end
+
   def bootstrap_class_for(flash_type)
     case flash_type.to_sym
     when :error, :alert
