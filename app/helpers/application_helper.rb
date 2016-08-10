@@ -6,7 +6,7 @@ module ApplicationHelper
 
   def bootstrap_class_for(flash_type)
     case flash_type.to_sym
-    when :error, :alert
+    when :error, :alert, :danger
       ' alert-danger '
     when :warning
       ' alert-warning '

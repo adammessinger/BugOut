@@ -4,5 +4,5 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   before_action :authenticate_user!
 
-  add_flash_types :error, :success, :warning
+  add_flash_types :danger, :error, :success, :warning
 end
