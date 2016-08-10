@@ -22,7 +22,7 @@ RSpec.describe 'bugs/edit', type: :view do
       bug_c = Bug.new(complete_attributes)
       reporter = User.create!(email: 'jon@example.com', password: '29funaoiw3fuq345!@')
       assignee = User.create!(email: 'jane@example.com', password: '29funaoiw3fuq345!@')
-      bug_c.update(reporter_id: reporter.id, assignee_id: assignee.id)
+      bug_c.update!(reporter_id: reporter.id, assignee_id: assignee.id)
       @complete_bug = assign :bug, bug_c
       render
     end
@@ -59,7 +59,7 @@ RSpec.describe 'bugs/edit', type: :view do
     before(:example) do
       bug_p = Bug.new(valid_attributes)
       reporter = User.create!(email: 'sally@example.org', password: '2p39@4hal$f8h3noiu-&nae4y')
-      bug_p.update(reporter_id: reporter.id)
+      bug_p.update!(reporter_id: reporter.id)
       @partial_bug = assign :bug, bug_p
       render
     end

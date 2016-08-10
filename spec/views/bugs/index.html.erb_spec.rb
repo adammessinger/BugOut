@@ -133,8 +133,8 @@ RSpec.describe 'bugs/index', type: :view do
   context 'with assigned and unassigned bugs' do
     before(:example) do
       assigned_bug = Bug.new(valid_attributes)
-      assigned_bug.create_assignee email: 'jon@example.com', password: '29funaoiw3fuq345!@'
-      assigned_bug.save
+      assigned_bug.create_assignee! email: 'jon@example.com', password: '29funaoiw3fuq345!@'
+      assigned_bug.save!
       assign :bugs, [assigned_bug, Bug.create!(valid_attributes)]
       render
     end
