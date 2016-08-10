@@ -13,7 +13,7 @@ RSpec.describe 'bugs/index', type: :view do
   }
 
   context 'with 0 bugs' do
-    before(:each) do
+    before(:example) do
       # NOTE: see https://github.com/rspec/rspec-rails/issues/396
       view.lookup_context.prefixes << 'application'
       assign :bugs, []
@@ -39,7 +39,7 @@ RSpec.describe 'bugs/index', type: :view do
   end
 
   context 'with 1 bug' do
-    before(:each) do
+    before(:example) do
       assign :bugs, [Bug.create!(valid_attributes)]
       render
     end
@@ -50,7 +50,7 @@ RSpec.describe 'bugs/index', type: :view do
   end
 
   context 'with 2 bugs' do
-    before(:each) do
+    before(:example) do
       bugs = []
       2.times { bugs << Bug.create!(valid_attributes) }
       assign :bugs, bugs
@@ -86,7 +86,7 @@ RSpec.describe 'bugs/index', type: :view do
   end
 
   context 'with closed and unclosed bugs' do
-    before(:each) do
+    before(:example) do
       bugs = []
       [true, false].each do |b|
         valid_attributes[:closed] = b
@@ -111,7 +111,7 @@ RSpec.describe 'bugs/index', type: :view do
   end
 
   context 'with tagged and untagged bugs' do
-    before(:each) do
+    before(:example) do
       bugs = []
       ['urgent, wibbly, cromulent', nil].each do |t|
         valid_attributes[:tags] = t
@@ -131,7 +131,7 @@ RSpec.describe 'bugs/index', type: :view do
   end
 
   context 'with assigned and unassigned bugs' do
-    before(:each) do
+    before(:example) do
       assigned_bug = Bug.new(valid_attributes)
       assigned_bug.create_assignee email: 'jon@example.com', password: '29funaoiw3fuq345!@'
       assigned_bug.save

@@ -1,7 +1,7 @@
 # require 'rails_helper'
 #
 # RSpec.describe "comments/new", type: :view do
-#   before(:each) do
+#   before(:example) do
 #     assign(:comment, Comment.new(
 #       :author_id => 1,
 #       :bug_id => 1,

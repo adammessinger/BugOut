@@ -1,7 +1,7 @@
 # require 'rails_helper'
 #
 # RSpec.describe "comments/show", type: :view do
-#   before(:each) do
+#   before(:example) do
 #     @comment = assign(:comment, Comment.create!(
 #       :author_id => 1,
 #       :bug_id => 2,

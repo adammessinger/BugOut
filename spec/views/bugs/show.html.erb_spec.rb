@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'bugs/show', type: :view do
-  before(:each) do
+  before(:example) do
     complete_bug = Bug.new({
       title: 'Title',
       description: 'MyText',

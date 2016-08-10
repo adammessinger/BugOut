@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'bugs/new', type: :view do
-  before(:each) do
+  before(:example) do
     assign :bug, Bug.new
     render
   end

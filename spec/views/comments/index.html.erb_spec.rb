@@ -1,7 +1,7 @@
 # require 'rails_helper'
 #
 # RSpec.describe "comments/index", type: :view do
-#   before(:each) do
+#   before(:example) do
 #     assign(:comments, [
 #       Comment.create!(
 #         :author_id => 1,
