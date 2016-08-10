@@ -14,6 +14,7 @@ gem_graph.png
 /spec/tmp
 
 # ignorable testing files
+.byebug_history
 capybara-*.html
 .rspec-local
 /coverage/
