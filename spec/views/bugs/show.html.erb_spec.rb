@@ -17,13 +17,14 @@ RSpec.describe 'bugs/show', type: :view do
       bug_c.create_reporter! email: 'jane@example.com', password: '29funaoiw3fuq345!@'
       bug_c.save!
       @complete_bug = assign :bug, bug_c
+      @is_closed = tf_to_yn @complete_bug.closed
       render
     end
 
     it 'renders bug attributes in a <dl>' do
       expect(rendered).to(match(/<h1>\s*?##{@complete_bug.id}:\s+?#{@complete_bug.title}\s*?<\/h1>/))
       expect(rendered).to(match(/<dt>Description:<\/dt>\s+?<dd>#{@complete_bug.description}<\/dd>/))
-      expect(rendered).to(match(/<dt>Closed:<\/dt>\s+?<dd>\s+?<span class=".+?">\s+?#{@complete_bug.closed}\s+?<\/span>\s+?<\/dd>/))
+      expect(rendered).to(match(/<dt>Closed:<\/dt>\s+?<dd>\s+?<span class=".+?">\s+?#{@is_closed}\s+?<\/span>\s+?<\/dd>/))
       # NOTE: Reporter and Assignee use a different regex from Closed for the inner
       # span class because they lack a span class when those attributes have a value.
       expect(rendered).to(match(/<dt>Reporter:<\/dt>\s+?<dd>\s+?<span class="">\s+?#{@complete_bug.reporter.email}\s+?<\/span>\s+?<\/dd>/))
@@ -56,11 +57,12 @@ RSpec.describe 'bugs/show', type: :view do
       bug_uncl.create_reporter! email: 'jose@example.com', password: 'pq48hunavb7a0973'
       bug_uncl.save!
       @unclosed_bug = assign :bug, bug_uncl
+      @is_closed = tf_to_yn @unclosed_bug.closed
       render
     end
 
     it 'gives the "bg-danger" class to the displayed "Closed" status' do
-      expect(rendered).to(match(/<dt>Closed:<\/dt>\s+?<dd>\s+?<span class="bg-danger">\s+?#{@unclosed_bug.closed}\s+?<\/span>\s+?<\/dd>/))
+      expect(rendered).to(match(/<dt>Closed:<\/dt>\s+?<dd>\s+?<span class="bg-danger">\s+?#{@is_closed}\s+?<\/span>\s+?<\/dd>/))
     end
   end
 
@@ -72,11 +74,12 @@ RSpec.describe 'bugs/show', type: :view do
       bug_cl.create_reporter! email: 'jose@example.com', password: 'pq48hunavb7a0973'
       bug_cl.save!
       @closed_bug = assign :bug, bug_cl
+      @is_closed = tf_to_yn closed_atts[:closed]
       render
     end
 
     it 'gives the "bg-success" class to the displayed "Closed" status' do
-      expect(rendered).to(match(/<dt>Closed:<\/dt>\s+?<dd>\s+?<span class="bg-success">\s+?#{@closed_bug.closed}\s+?<\/span>\s+?<\/dd>/))
+      expect(rendered).to(match(/<dt>Closed:<\/dt>\s+?<dd>\s+?<span class="bg-success">\s+?#{@is_closed}\s+?<\/span>\s+?<\/dd>/))
     end
   end
 end
