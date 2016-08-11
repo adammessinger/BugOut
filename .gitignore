@@ -33,6 +33,7 @@ config/initializers/secret_token.rb
 
 # Editor Files & Dirs
 /.idea
+/.vscode
 *.sublime-*
 
 
