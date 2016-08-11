@@ -17,22 +17,16 @@ module ApplicationHelper
     end
   end
 
+  # NOTE: this works with standard string messages and iterables (hashes, arrays, etc.)
   def render_alerts(notifications = flash.to_hash, closeable = true)
     flashes = []
 
     notifications.each do |type, content|
-      if content.respond_to? 'each'
-        content.each do |c|
-          flashes << render(partial: 'notify_alert', locals: {
-            type: type,
-            content: c,
-            closeable: closeable
-          })
-        end
-      else
+      content = [content] unless content.respond_to? 'each'
+      content.each do |message|
         flashes << render(partial: 'notify_alert', locals: {
           type: type,
-          content: content,
+          content: message,
           closeable: closeable
         })
       end
