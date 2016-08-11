@@ -1,14 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'bugs/show', type: :view do
-  let(:complete_attributes) {
-    {
-      title: 'Title',
-      description: 'My description',
-      closed: false,
-      tags: 'foo, bar, baz'
-    }
-  }
+  let(:complete_attributes) do
+    { title: 'Title', description: 'My description', closed: false, tags: 'foo, bar, baz' }
+  end
 
   context 'with a complete bug' do
     before(:example) do

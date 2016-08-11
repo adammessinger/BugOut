@@ -3,14 +3,9 @@ require 'rails_helper'
 RSpec.describe 'bugs/index', type: :view do
   # This should return the minimal set of attributes required to create a valid
   # Bug. Remember to keep this up to date (or better, switch to fixtures or FactoryGirl).
-  let(:valid_attributes) {
-    {
-      title: 'My Title',
-      description: 'My Text',
-      closed: false,
-      reporter_id: 1
-    }
-  }
+  let(:valid_attributes) do
+    { title: 'My Title', description: 'My Text', closed: false, reporter_id: 1 }
+  end
 
   context 'with 0 bugs' do
     before(:example) do

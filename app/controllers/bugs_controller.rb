@@ -19,9 +19,8 @@ class BugsController < ApplicationController
 
   # GET /bugs/1/edit
   def edit
-    if @bug.reporter == nil
-      @bug.reporter = current_user
-    end
+    # TODO: implement soft delete of user records so this isn't necessary.
+    @bug.reporter = @bug.reporter.nil? ? current_user : @bug.reporter
   end
 
   # POST /bugs
