@@ -17,7 +17,7 @@
     </p>
 <% end %>
 
-    <%= render_alerts %>
+    <%= render_alerts unless flash.empty? %>
 
 
     <%= yield %>
