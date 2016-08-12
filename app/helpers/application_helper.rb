@@ -19,6 +19,8 @@ module ApplicationHelper
 
   # NOTE: this works with standard string messages and arrays of messages
   def render_alerts(closeable = true)
+    return if flash.empty?
+
     alerts = []
 
     flash.each do |type, content|
