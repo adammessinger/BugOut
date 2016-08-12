@@ -26,7 +26,7 @@ module ApplicationHelper
       Array.wrap(content).each do |message|
         next if message.blank?
         alerts << render(partial: 'notify_alert', locals: {
-          type: type,
+          type: bootstrap_class_for(type),
           content: message,
           closeable: closeable
         })
