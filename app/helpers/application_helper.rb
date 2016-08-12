@@ -17,14 +17,15 @@ module ApplicationHelper
     end
   end
 
-  # NOTE: this works with standard string messages and iterables (hashes, arrays, etc.)
-  def render_alerts(notifications = flash.to_hash, closeable = true)
-    flashes = []
+  # NOTE: this works with standard string messages and arrays of messages
+  def render_alerts(closeable = true)
+    alerts = []
 
-    notifications.each do |type, content|
-      content = [content] unless content.respond_to? 'each'
-      content.each do |message|
-        flashes << render(partial: 'notify_alert', locals: {
+    flash.each do |type, content|
+      next if content.blank?
+      Array.wrap(content).each do |message|
+        next if message.blank?
+        alerts << render(partial: 'notify_alert', locals: {
           type: type,
           content: message,
           closeable: closeable
@@ -32,6 +33,6 @@ module ApplicationHelper
       end
     end
 
-    safe_join(flashes, "\n")
+    safe_join(alerts, "\n")
   end
 end
