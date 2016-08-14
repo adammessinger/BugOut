@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path('../../',  __FILE__)
+
+Dir.chdir APP_ROOT do
+  puts "== Running Bundle Audit =="
+  puts '--------------------------'
+  system 'bundle exec bundle-audit check --update'
+
+  puts "\n== Running Brakeman Static Code Analysis =="
+  puts '--------------------------------------------'
+  system 'bin/brakeman'
+end

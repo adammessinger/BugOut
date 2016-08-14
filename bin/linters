@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path('../../',  __FILE__)
+
+Dir.chdir APP_ROOT do
+  puts '== Linting Syntax & Style (Rubocop) =='
+  puts '--------------------------------------'
+  system 'bin/rubocop'
+
+  puts "\n== Linting for \"Code Smells\" (Reek) =="
+  puts '--------------------------------------'
+  system 'bin/reek'
+end
