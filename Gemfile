@@ -42,8 +42,12 @@ group :development do
 end
 
 group :development, :test do
+  # Linters for syntax/style (rubocop), "code smells" (reek), and speed (fasterer)
   gem 'rubocop'
+  gem 'reek'
   gem 'fasterer'
+
+  # Security analysis tools
   gem 'brakeman'
   gem 'bundler-audit'
 
