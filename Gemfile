@@ -44,6 +44,8 @@ end
 group :development, :test do
   gem 'rubocop'
   gem 'fasterer'
+  gem 'brakeman'
+  gem 'bundler-audit'
 
   # Set environment variables in dev & test from a .env file
   gem 'dotenv-rails', '~> 2.1'
