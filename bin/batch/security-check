@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+require 'pathname'
+require 'time'
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path('../../../',  __FILE__)
+
+Dir.chdir APP_ROOT do
+  puts "== Running Bundle Audit =="
+  puts '--------------------------'
+  system 'bundle exec bundle-audit check --update'
+
+  puts "\n== Running Brakeman Static Code Analysis =="
+  puts '--------------------------------------------'
+  report_dir = 'log/brakeman/'
+  report_filename = "#{Time.now.iso8601}"
+  report_fullpath = "log/brakeman/#{report_filename}.html"
+  system "mkdir -p #{report_dir} && touch #{report_fullpath}"
+  system "bundle exec brakeman -q -o #{report_fullpath}"
+  puts "Full Brakeman report saved as #{report_fullpath}"
+end
