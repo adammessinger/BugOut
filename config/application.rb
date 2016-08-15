@@ -31,5 +31,18 @@ module BugOut
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # fine-tune test generators
+    config.generators do |generate|
+      generate.test_framework :rspec,
+        fixtures: true,
+        model_specs: true,
+        view_specs: true,
+        helper_specs: true,
+        controller_specs: true,
+        routing_specs: false,
+        request_specs: false
+      generate.fixture_replacement(:factory_girl, dir: 'spec/factories')
+    end
   end
 end
