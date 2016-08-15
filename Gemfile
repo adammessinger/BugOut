@@ -41,6 +41,18 @@ group :development do
   gem 'web-console', '~> 2.0'
 end
 
+group :test do
+  # testing with RSpec and Capybara
+  gem 'rspec-rails', '~> 3.0'
+  gem 'shoulda-matchers', '~> 3.0'
+  gem 'faker', '~> 1.6.6'
+  gem 'factory_girl_rails', '~> 4.7'
+  gem 'capybara', '~> 2.7.1'
+  gem 'selenium-webdriver', '~> 2.53.4'
+  gem 'database_cleaner', '~> 1.5.3'
+  gem 'launchy', '~> 2.4'
+end
+
 group :development, :test do
   # Linters for syntax/style (rubocop), "code smells" (reek), and speed (fasterer)
   gem 'rubocop'
@@ -60,11 +72,6 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets'
-
-  # testing with RSpec and Capybara
-  gem 'rspec-rails', '~> 3.0'
-  gem 'shoulda-matchers', '~> 3.0'
-  gem 'capybara'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
