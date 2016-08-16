@@ -25,11 +25,11 @@ RSpec.describe 'bugs/index', type: :view do
 
     it 'renders an info notification that there are no bugs' do
       assert_select 'div.panel-info > .panel-heading > .panel-title',
-                    text: 'Nothing to See Here',
-                    count: 1
+        text: 'Nothing to See Here',
+        count: 1
       assert_select 'div.panel-info > .panel-body',
-                    text: 'You don’t have any bugs yet. Click a “Report Bug” button to create one.',
-                    count: 1
+        text: 'You don’t have any bugs yet. Click a “Report Bug” button to create one.',
+        count: 1
     end
   end
 

@@ -37,6 +37,12 @@ Style/IndentHash:
     - align_braces
   IndentationWidth: ~
 
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+
 Style/RegexpLiteral:
   EnforcedStyle: slashes
   AllowInnerSlashes: true
