@@ -34,6 +34,7 @@ module BugOut
 
     # fine-tune test generators
     config.generators do |generate|
+      generate.javascript_engine :js
       generate.test_framework :rspec,
         fixtures: true,
         model_specs: true,
