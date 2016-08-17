@@ -4,22 +4,22 @@
 #   before(:example) do
 #     assign(:comments, [
 #       Comment.create!(
-#         :author_id => 1,
-#         :bug_id => 2,
-#         :body => "MyText"
+#         :body => "MyText",
+#         :bug => nil,
+#         :author => nil
 #       ),
 #       Comment.create!(
-#         :author_id => 1,
-#         :bug_id => 2,
-#         :body => "MyText"
+#         :body => "MyText",
+#         :bug => nil,
+#         :author => nil
 #       )
 #     ])
 #   end
 #
 #   it "renders a list of comments" do
 #     render
-#     assert_select "tr>td", :text => 1.to_s, :count => 2
-#     assert_select "tr>td", :text => 2.to_s, :count => 2
 #     assert_select "tr>td", :text => "MyText".to_s, :count => 2
+#     assert_select "tr>td", :text => nil.to_s, :count => 2
+#     assert_select "tr>td", :text => nil.to_s, :count => 2
 #   end
 # end

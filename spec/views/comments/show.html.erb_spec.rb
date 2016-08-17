@@ -3,16 +3,16 @@
 # RSpec.describe "comments/show", type: :view do
 #   before(:example) do
 #     @comment = assign(:comment, Comment.create!(
-#       :author_id => 1,
-#       :bug_id => 2,
-#       :body => "MyText"
+#       :body => "MyText",
+#       :bug => nil,
+#       :author => nil
 #     ))
 #   end
 #
 #   it "renders attributes in <p>" do
 #     render
-#     expect(rendered).to match(/1/)
-#     expect(rendered).to match(/2/)
 #     expect(rendered).to match(/MyText/)
+#     expect(rendered).to match(//)
+#     expect(rendered).to match(//)
 #   end
 # end
