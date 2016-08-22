@@ -60,7 +60,7 @@ class CommentsController < ApplicationController
   end
 
   def redirect_unauthorized(action)
-    error_msg = "<strong>Oops!</strong> Only a comment’s author (or an admin) can #{action} it."
+    error_msg = "Only a comment’s author (or an admin) can #{action} it."
     redirect_to @bug, error: error_msg
   end
 
