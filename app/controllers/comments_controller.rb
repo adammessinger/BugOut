@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    redirect_unauthorized(__method__) && return unless comment_author?(@comment)
+    return if block_nonauthor_changes(__method__)
   end
 
   def create
@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
   end
 
   def update
-    redirect_unauthorized(__method__) && return unless comment_author?(@comment)
+    return if block_nonauthor_changes(__method__)
 
     if @comment.update(comment_params)
       redirect_to @bug, notice: 'Comment was successfully updated.'
@@ -38,7 +38,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    redirect_unauthorized(:delete) && return unless comment_author?(@comment)
+    return if block_nonauthor_changes(:delete)
 
     @comment.destroy
     redirect_to @bug, notice: 'Comment was successfully deleted.'
@@ -62,6 +62,10 @@ class CommentsController < ApplicationController
   def redirect_unauthorized(action)
     error_msg = "<strong>Oops!</strong> Only a comment’s author (or an admin) can #{action} it."
     redirect_to @bug, error: error_msg
+  end
+
+  def block_nonauthor_changes(action)
+    redirect_unauthorized(action) && (return true) unless comment_author?(@comment)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
