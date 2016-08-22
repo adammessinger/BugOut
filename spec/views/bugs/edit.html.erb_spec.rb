@@ -22,10 +22,11 @@ RSpec.describe 'bugs/edit', type: :view do
       expect(view).to render_template(partial: '_bug_form', count: 1)
     end
 
-    it 'renders new bug form and all its fields' do
+    it 'renders the bug form and all its fields' do
       assert_select 'form[action=?][method=?]', bug_path(@complete_bug), 'post' do
         assert_select 'input#bug_title[name=?]', 'bug[title]'
-        assert_select 'select#bug_reporter_id[name=?]', 'bug[reporter_id]'
+        assert_select 'input[type="hidden"]#bug_reporter_id[name=?]', 'bug[reporter_id]'
+        assert_select 'p.form-control-static#bug_reporter', count: 1
         assert_select 'select#bug_assignee_id[name=?]', 'bug[assignee_id]'
         assert_select 'textarea#bug_description[name=?]', 'bug[description]'
         assert_select 'input#bug_tags[name=?]', 'bug[tags]'
@@ -37,7 +38,8 @@ RSpec.describe 'bugs/edit', type: :view do
     it 'has values in fields with data' do
       assert_select 'form[action=?][method=?]', bug_path(@complete_bug), 'post' do
         assert_select 'input#bug_title[value=?]', @complete_bug.title
-        assert_select 'select#bug_reporter_id > option[selected][value=?]', @complete_bug.reporter_id.to_s
+        assert_select 'input[type="hidden"]#bug_reporter_id[value=?]', @complete_bug.reporter_id.to_s
+        assert_select 'p#bug_reporter', @complete_bug.reporter.email
         assert_select 'select#bug_assignee_id > option[selected][value=?]', @complete_bug.assignee_id.to_s
         assert_select 'textarea#bug_description', text: @complete_bug.description
         assert_select 'input#bug_tags[value=?]', @complete_bug.tags
@@ -62,7 +64,8 @@ RSpec.describe 'bugs/edit', type: :view do
     it 'has values ONLY in fields with data' do
       assert_select 'form[action=?][method=?]', bug_path(@partial_bug), 'post' do
         assert_select 'input#bug_title[value=?]', @partial_bug.title
-        assert_select 'select#bug_reporter_id > option[selected][value=?]', @partial_bug.reporter_id.to_s
+        assert_select 'input[type="hidden"]#bug_reporter_id[value=?]', @partial_bug.reporter_id.to_s
+        assert_select 'p#bug_reporter', @partial_bug.reporter.email
         assert_select 'select#bug_assignee_id > option[selected]', 0
         assert_select 'textarea#bug_description', text: @partial_bug.description
         assert_select 'input#bug_tags', 1
