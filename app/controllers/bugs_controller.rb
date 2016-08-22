@@ -19,6 +19,8 @@ class BugsController < ApplicationController
 
   # GET /bugs/1/edit
   def edit
+    return unless authorized?(__method__)
+
     # TODO: implement soft delete of user records so this isn't necessary.
     @bug.reporter = @bug.reporter.nil? ? current_user : @bug.reporter
   end
@@ -42,6 +44,8 @@ class BugsController < ApplicationController
   # PATCH/PUT /bugs/1
   # PATCH/PUT /bugs/1.json
   def update
+    return unless authorized?(__method__)
+
     respond_to do |format|
       if @bug.update(bug_params)
         format.html { redirect_to @bug, success: 'Bug was successfully updated.' }
@@ -56,6 +60,8 @@ class BugsController < ApplicationController
   # DELETE /bugs/1
   # DELETE /bugs/1.json
   def destroy
+    return unless authorized?(:delete)
+
     @bug.destroy
     respond_to do |format|
       format.html { redirect_to bugs_url, success: 'Bug was successfully deleted.' }
@@ -68,6 +74,20 @@ class BugsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_bug
     @bug = Bug.find(params[:id])
+  end
+
+  def current_user_owns?(bug)
+    cuid = current_user.id
+    user_signed_in? && (cuid == bug.reporter_id || cuid == bug.assignee_id)
+  end
+
+  def redirect_unauthorized(action)
+    error_msg = "Only a bug’s reporter or assignee (or an admin) can #{action} it."
+    redirect_to @bug, error: error_msg
+  end
+
+  def authorized?(action)
+    redirect_unauthorized(action) && (return false) unless current_user_owns?(@bug)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
