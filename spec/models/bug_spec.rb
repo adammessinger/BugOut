@@ -12,6 +12,36 @@ describe Bug, type: :model do
   it { should validate_presence_of(:reporter_id) }
   it { should validate_presence_of(:description) }
 
+  context 'with required fields filled' do
+    it 'is valid with a title, description, and reporter_id' do
+      bug = Bug.new(valid_attributes)
+      expect(bug).to(be_valid)
+    end
+  end
+
+  context 'with required fields not filled' do
+    it 'is invalid without a title' do
+      valid_attributes[:title] = nil
+      bug = Bug.new(valid_attributes)
+      bug.valid?
+      expect(bug.errors[:title][0]).to(eq "can't be blank")
+    end
+
+    it 'is invalid without a reporter_id' do
+      valid_attributes[:reporter_id] = nil
+      bug = Bug.new(valid_attributes)
+      bug.valid?
+      expect(bug.errors[:reporter_id][0]).to(eq "can't be blank")
+    end
+
+    it 'is invalid without a description' do
+      valid_attributes[:description] = nil
+      bug = Bug.new(valid_attributes)
+      bug.valid?
+      expect(bug.errors[:description][0]).to(eq "can't be blank")
+    end
+  end
+
   context 'with valid and invalid User associations' do
     before(:example) do
       valid_attributes[:reporter_id] = nil
