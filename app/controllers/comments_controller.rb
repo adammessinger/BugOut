@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    return unless authorized?(__method__)
+    return redirect_unauthorized(__method__) unless authorized?
   end
 
   def create
@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
   end
 
   def update
-    return unless authorized?(__method__)
+    return redirect_unauthorized(__method__) unless authorized?
 
     if @comment.update(comment_params)
       redirect_to @bug, notice: 'Comment was successfully updated.'
@@ -38,7 +38,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    return unless authorized?(:delete)
+    return redirect_unauthorized(:delete) unless authorized?
 
     @comment.destroy
     redirect_to @bug, notice: 'Comment was successfully deleted.'
@@ -64,8 +64,8 @@ class CommentsController < ApplicationController
     redirect_to @bug, error: error_msg
   end
 
-  def authorized?(action)
-    redirect_unauthorized(action) && (return false) unless current_user_wrote?(@comment)
+  def authorized?
+    current_user_wrote?(@comment)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -19,7 +19,7 @@ class BugsController < ApplicationController
 
   # GET /bugs/1/edit
   def edit
-    return unless authorized?(__method__)
+    return redirect_unauthorized(__method__) unless authorized?
 
     # TODO: implement soft delete of user records so this isn't necessary.
     @bug.reporter = @bug.reporter.nil? ? current_user : @bug.reporter
@@ -44,7 +44,7 @@ class BugsController < ApplicationController
   # PATCH/PUT /bugs/1
   # PATCH/PUT /bugs/1.json
   def update
-    return unless authorized?(__method__)
+    return redirect_unauthorized(__method__) unless authorized?
 
     respond_to do |format|
       if @bug.update(bug_params)
@@ -60,7 +60,7 @@ class BugsController < ApplicationController
   # DELETE /bugs/1
   # DELETE /bugs/1.json
   def destroy
-    return unless authorized?(:delete)
+    return redirect_unauthorized(:delete) unless authorized?
 
     @bug.destroy
     respond_to do |format|
@@ -86,8 +86,8 @@ class BugsController < ApplicationController
     redirect_to @bug, error: error_msg
   end
 
-  def authorized?(action)
-    redirect_unauthorized(action) && (return false) unless current_user_owns?(@bug)
+  def authorized?
+    current_user_owns?(@bug)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
