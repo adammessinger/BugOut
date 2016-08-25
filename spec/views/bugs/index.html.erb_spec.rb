@@ -97,10 +97,18 @@ RSpec.describe 'bugs/index', type: :view do
     end
 
     it 'gives the "bg-success" class to "Closed?" cell for closed bugs' do
+      assert_select 'tr > td:nth-child(5).bg-success', 1
+    end
+
+    it 'says "Yes" in the "Closed?" cell for closed bugs' do
       assert_select 'tr > td:nth-child(5).bg-success', text: 'Yes', count: 1
     end
 
     it 'gives the "bg-danger" class to "Closed?" cell for unclosed bugs' do
+      assert_select 'tr > td:nth-child(5).bg-danger', 1
+    end
+
+    it 'says "No" in the "Closed?" cell for unclosed bugs' do
       assert_select 'tr > td:nth-child(5).bg-danger', text: 'No', count: 1
     end
   end
