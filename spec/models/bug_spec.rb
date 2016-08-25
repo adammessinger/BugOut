@@ -42,10 +42,23 @@ describe Bug, type: :model do
     end
   end
 
-  context 'with valid and invalid User associations' do
+  context 'with valid or invalid User associations' do
     before(:example) do
       valid_attributes[:reporter_id] = nil
       @bug = Bug.new(valid_attributes)
+    end
+
+    it 'is valid if reporter record is valid' do
+      @bug.create_reporter!(email: 'bob@example.com', password: '234&098qtpg9a732')
+      @bug.valid?
+      expect(@bug).to(be_valid)
+    end
+
+    it 'is valid if assignee record is valid' do
+      @bug.create_reporter!(email: 'bob@example.com', password: '234&098qtpg9a732')
+      @bug.create_assignee!(email: 'jane@example.com', password: '=45y8hj@pob#n8e4')
+      @bug.valid?
+      expect(@bug).to(be_valid)
     end
 
     it 'is invalid if reporter record is invalid' do
