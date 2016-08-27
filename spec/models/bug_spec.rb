@@ -36,21 +36,21 @@ describe Bug, type: :model do
         valid_attributes[:title] = nil
         bug = Bug.new(valid_attributes)
         bug.valid?
-        expect(bug.errors[:title][0]).to(eq "can't be blank")
+        expect(bug.errors[:title]).to(include "can't be blank")
       end
 
       it 'is invalid without a reporter_id' do
         valid_attributes[:reporter_id] = nil
         bug = Bug.new(valid_attributes)
         bug.valid?
-        expect(bug.errors[:reporter_id][0]).to(eq "can't be blank")
+        expect(bug.errors[:reporter_id]).to(include "can't be blank")
       end
 
       it 'is invalid without a description' do
         valid_attributes[:description] = nil
         bug = Bug.new(valid_attributes)
         bug.valid?
-        expect(bug.errors[:description][0]).to(eq "can't be blank")
+        expect(bug.errors[:description]).to(include "can't be blank")
       end
     end
 
@@ -76,13 +76,13 @@ describe Bug, type: :model do
       it 'is invalid if reporter record is invalid' do
         @bug.build_reporter(id: 9999, email: nil)
         @bug.save
-        expect(@bug.errors[:reporter][0]).to(eq 'is invalid')
+        expect(@bug.errors[:reporter]).to(include 'is invalid')
       end
 
       it 'is invalid if assignee record is invalid' do
         @bug.build_assignee(id: 9999, email: nil)
         @bug.save
-        expect(@bug.errors[:assignee][0]).to(eq 'is invalid')
+        expect(@bug.errors[:assignee]).to(include 'is invalid')
       end
     end
   end
