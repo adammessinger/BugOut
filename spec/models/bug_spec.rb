@@ -2,7 +2,12 @@ require 'rails_helper'
 
 describe Bug, type: :model do
   let(:valid_attributes) do
-    { title: 'My Title', description: 'My Text', closed: false, reporter_id: 1 }
+    {
+      title: 'My Descriptive Title',
+      description: 'My sufficiently detailed description.',
+      closed: false,
+      reporter_id: 1
+    }
   end
   let(:user_bob_atts) { { email: 'bob@example.com', password: '234&098qtpg9a732' } }
   let(:user_jane_atts) { { email: 'jane@example.com', password: '=45y8hj@pob#n8e4' } }
