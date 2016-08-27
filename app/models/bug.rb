@@ -6,4 +6,9 @@ class Bug < ActiveRecord::Base
   validates(:title, presence: true)
   validates(:reporter_id, presence: true)
   validates(:description, presence: true)
+
+  def owned_by?(user = nil)
+    return nil unless user.is_a?(User)
+    user == reporter || user == assignee
+  end
 end
