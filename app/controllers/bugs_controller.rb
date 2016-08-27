@@ -76,18 +76,13 @@ class BugsController < ApplicationController
     @bug = Bug.find(params[:id])
   end
 
-  def current_user_owns?(bug)
-    cuid = current_user.id
-    user_signed_in? && (cuid == bug.reporter_id || cuid == bug.assignee_id)
-  end
-
   def redirect_unauthorized(action)
     error_msg = "Only a bug’s reporter or assignee (or an admin) can #{action} it."
     redirect_to @bug, error: error_msg
   end
 
   def authorized?
-    current_user_owns?(@bug)
+    user_signed_in? && @bug.owned_by?(current_user)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
