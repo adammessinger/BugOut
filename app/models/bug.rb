@@ -4,8 +4,12 @@ class Bug < ActiveRecord::Base
   has_many :comments, dependent: :destroy
 
   validates(:title, presence: true)
+  validates(:title, length: { in: 10..255 })
+  validates(:title, uniqueness: { case_sensitive: false })
   validates(:reporter_id, presence: true)
   validates(:description, presence: true)
+  validates(:description, length: { in: 24..65_000 })
+  validates(:description, uniqueness: { case_sensitive: false })
 
   def owned_by?(user = nil)
     return nil unless user.is_a?(User)
