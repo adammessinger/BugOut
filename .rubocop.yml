@@ -17,7 +17,7 @@ Metrics/LineLength:
   AllowURI: true
   Exclude:
     - config/**/*.rb
-    - spec/views/**/*.rb
+    - spec/**/*.rb
   URISchemes:
     - http
     - https
