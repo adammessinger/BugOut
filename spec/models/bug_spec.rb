@@ -11,8 +11,12 @@ describe Bug, type: :model do
   it { should belong_to(:assignee) }
   it { should have_many(:comments) }
   it { should validate_presence_of(:title) }
+  it { should validate_length_of(:title).is_at_least(10).is_at_most(255) }
+  it { should validate_uniqueness_of(:title).case_insensitive }
   it { should validate_presence_of(:reporter_id) }
   it { should validate_presence_of(:description) }
+  it { should validate_length_of(:description).is_at_least(24).is_at_most(65_000) }
+  it { should validate_uniqueness_of(:description).case_insensitive }
 
   describe 'validation checking' do
     context 'with required fields filled' do
