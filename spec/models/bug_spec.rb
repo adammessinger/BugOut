@@ -4,6 +4,8 @@ describe Bug, type: :model do
   let(:valid_attributes) do
     { title: 'My Title', description: 'My Text', closed: false, reporter_id: 1 }
   end
+  let(:user_bob) { { email: 'bob@example.com', password: '234&098qtpg9a732' } }
+  let(:user_jane) { { email: 'jane@example.com', password: '=45y8hj@pob#n8e4' } }
 
   it { should belong_to(:reporter) }
   it { should belong_to(:assignee) }
@@ -49,14 +51,14 @@ describe Bug, type: :model do
     end
 
     it 'is valid if reporter record is valid' do
-      @bug.create_reporter!(email: 'bob@example.com', password: '234&098qtpg9a732')
+      @bug.create_reporter!(user_jane)
       @bug.valid?
       expect(@bug).to(be_valid)
     end
 
     it 'is valid if assignee record is valid' do
-      @bug.create_reporter!(email: 'bob@example.com', password: '234&098qtpg9a732')
-      @bug.create_assignee!(email: 'jane@example.com', password: '=45y8hj@pob#n8e4')
+      @bug.create_reporter!(user_bob)
+      @bug.create_assignee!(user_jane)
       @bug.valid?
       expect(@bug).to(be_valid)
     end
