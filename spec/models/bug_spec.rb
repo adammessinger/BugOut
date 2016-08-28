@@ -42,6 +42,56 @@ describe Bug, type: :model do
       end
     end
 
+    context 'with title and description too short' do
+      it 'is invalid if title is too short' do
+        bug = build(:bug, title: Faker::Lorem.characters(9))
+
+        bug.valid?
+        expect(bug.errors[:title]).to(include 'is too short (minimum is 10 characters)')
+      end
+
+      it 'is invalid if description is too short' do
+        bug = build(:bug, description: Faker::Lorem.characters(23))
+
+        bug.valid?
+        expect(bug.errors[:description]).to(include 'is too short (minimum is 24 characters)')
+      end
+    end
+
+    context 'with title and description at max & min length' do
+      it 'is valid with title at minimum length' do
+        expect(build(:bug, title: Faker::Lorem.characters(10))).to(be_valid)
+      end
+
+      it 'is valid with description at minimum length' do
+        expect(build(:bug, description: Faker::Lorem.characters(24))).to(be_valid)
+      end
+
+      it 'is valid with title at maximum length' do
+        expect(build(:bug, title: Faker::Lorem.characters(255))).to(be_valid)
+      end
+
+      it 'is valid with description at maximum length' do
+        expect(build(:bug, description: Faker::Lorem.characters(65_000))).to(be_valid)
+      end
+    end
+
+    context 'with title and description too long' do
+      it 'is invalid if title is too long' do
+        bug = build(:bug, title: Faker::Lorem.characters(256))
+
+        bug.valid?
+        expect(bug.errors[:title]).to(include 'is too long (maximum is 255 characters)')
+      end
+
+      it 'is invalid if description is too short' do
+        bug = build(:bug, description: Faker::Lorem.characters(65_001))
+
+        bug.valid?
+        expect(bug.errors[:description]).to(include 'is too long (maximum is 65000 characters)')
+      end
+    end
+
     context 'with valid User associations' do
       before(:example) do
         @reporter = create(:user)
