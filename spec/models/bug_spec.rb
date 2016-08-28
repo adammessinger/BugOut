@@ -1,17 +1,6 @@
 require 'rails_helper'
 
 describe Bug, type: :model do
-  let(:valid_attributes) do
-    {
-      title: 'My Descriptive Title',
-      description: 'My sufficiently detailed description.',
-      closed: false,
-      reporter_id: 1
-    }
-  end
-  let(:user_bob_atts) { { email: 'bob@example.com', password: '234&098qtpg9a732' } }
-  let(:user_jane_atts) { { email: 'jane@example.com', password: '=45y8hj@pob#n8e4' } }
-
   it { should belong_to(:reporter) }
   it { should belong_to(:assignee) }
   it { should have_many(:comments) }
@@ -26,104 +15,111 @@ describe Bug, type: :model do
   describe 'validation checking' do
     context 'with required fields filled' do
       it 'is valid with a title, description, and reporter_id' do
-        bug = Bug.new(valid_attributes)
-        expect(bug).to(be_valid)
+        expect(build(:bug)).to(be_valid)
       end
     end
 
     context 'with required fields not filled' do
       it 'is invalid without a title' do
-        valid_attributes[:title] = nil
-        bug = Bug.new(valid_attributes)
+        bug = build(:bug, title: nil)
+
         bug.valid?
         expect(bug.errors[:title]).to(include "can't be blank")
       end
 
-      it 'is invalid without a reporter_id' do
-        valid_attributes[:reporter_id] = nil
-        bug = Bug.new(valid_attributes)
+      it 'is invalid without a reporter' do
+        bug = build(:bug, reporter: nil)
+
         bug.valid?
         expect(bug.errors[:reporter_id]).to(include "can't be blank")
       end
 
       it 'is invalid without a description' do
-        valid_attributes[:description] = nil
-        bug = Bug.new(valid_attributes)
+        bug = build(:bug, description: nil)
+
         bug.valid?
         expect(bug.errors[:description]).to(include "can't be blank")
       end
     end
 
-    context 'with valid or invalid User associations' do
+    context 'with valid User associations' do
       before(:example) do
-        valid_attributes[:reporter_id] = nil
-        @bug = Bug.new(valid_attributes)
+        @reporter = create(:user)
+        @assignee = create(:user)
       end
 
       it 'is valid if reporter record is valid' do
-        @bug.create_reporter!(user_jane_atts)
-        @bug.valid?
-        expect(@bug).to(be_valid)
+        bug = build(:bug, reporter: @reporter)
+
+        bug.valid?
+        expect(bug).to(be_valid)
       end
 
       it 'is valid if assignee record is valid' do
-        @bug.create_reporter!(user_bob_atts)
-        @bug.create_assignee!(user_jane_atts)
-        @bug.valid?
-        expect(@bug).to(be_valid)
-      end
+        bug = build(:bug, assignee: @assignee)
 
+        bug.valid?
+        expect(bug).to(be_valid)
+      end
+    end
+
+    context 'with invalid User associations' do
       it 'is invalid if reporter record is invalid' do
-        @bug.build_reporter(id: 9999, email: nil)
-        @bug.save
-        expect(@bug.errors[:reporter]).to(include 'is invalid')
+        bug = build(:bug, reporter_id: 99_999)
+
+        bug.valid?
+        expect(bug.errors[:reporter]).to(include "can't be blank")
       end
 
       it 'is invalid if assignee record is invalid' do
-        @bug.build_assignee(id: 9999, email: nil)
-        @bug.save
-        expect(@bug.errors[:assignee]).to(include 'is invalid')
+        bug = build(:bug, assignee_id: 99_999)
+
+        bug.valid?
+        expect(bug.errors[:assignee]).to(include "can't be blank")
       end
     end
   end
 
   describe '#owned_by?' do
     before(:example) do
-      @bug = Bug.new(valid_attributes)
-      @bob = User.new(user_bob_atts)
-      @jane = User.new(user_jane_atts)
-      @bug.reporter = @bob
-      @bug.assignee = @jane
+      @reporter = create(:user)
+      @assignee = create(:user)
+      @generic_bug = build(:bug)
     end
 
     it 'returns true if passed user arg matches bug reporter' do
-      expect(@bug.owned_by?(@bob)).to(be true)
+      bug = build(:bug, reporter: @reporter)
+
+      expect(bug.owned_by?(@reporter)).to(be true)
     end
 
     it 'returns true if passed user arg matches bug assignee' do
-      expect(@bug.owned_by?(@jane)).to(be true)
+      bug = build(:bug, assignee: @assignee)
+
+      expect(bug.owned_by?(@assignee)).to(be true)
     end
 
     it 'returns true if passed user arg matches bug reporter and assignee' do
-      @bug.reporter = @jane
+      both = create(:user)
+      bug = build(:bug, reporter: both, assignee: both)
 
-      expect(@bug.owned_by?(@jane)).to(be true)
+      expect(bug.owned_by?(both)).to(be true)
     end
 
     it 'returns false if passed user arg matches NIETHER reporter NOR assignee' do
-      alice = User.new(email: 'alice@example.com', password: 'apwrhp9^%/*&z#x!vjdf')
+      nope = build(:user)
 
-      expect(@bug.owned_by?(alice)).to(be false)
+      expect(@generic_bug.owned_by?(nope)).to(be false)
     end
 
     it 'returns nil if passed a non-user argument' do
       nonsense = Object.new
 
-      expect(@bug.owned_by?(nonsense)).to(be nil)
+      expect(@generic_bug.owned_by?(nonsense)).to(be nil)
     end
 
     it 'returns nil if passed no argument (user param defaults to nil)' do
-      expect(@bug.owned_by?).to(be nil)
+      expect(@generic_bug.owned_by?).to(be nil)
     end
   end
 end
