@@ -1,12 +1,14 @@
 class Bug < ActiveRecord::Base
-  belongs_to :reporter, class_name: :User, foreign_key: :reporter_id, validate: true
-  belongs_to :assignee, class_name: :User, foreign_key: :assignee_id, validate: true
+  belongs_to :reporter, class_name: :User, foreign_key: :reporter_id, inverse_of: :reports
+  belongs_to :assignee, class_name: :User, foreign_key: :assignee_id, inverse_of: :assignments
   has_many :comments, dependent: :destroy
 
   validates(:title, presence: true)
   validates(:title, length: { in: 10..255 })
   validates(:title, uniqueness: { case_sensitive: false })
   validates(:reporter_id, presence: true)
+  validates(:reporter, presence: true)
+  validates(:assignee, presence: true, if: 'assignee_id.present?')
   validates(:description, presence: true)
   validates(:description, length: { in: 24..65_000 })
   validates(:description, uniqueness: { case_sensitive: false })
