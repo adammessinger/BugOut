@@ -1,19 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'bugs/edit', type: :view do
-  let(:valid_attributes) do
-    { title: 'My Title', description: 'My Text', reporter_id: 1 }
-  end
-  let(:complete_attributes) do
-    { title: 'Title', description: 'My Text', closed: false, tags: 'foo, bar, baz' }
-  end
-
   context 'with a complete bug' do
     before(:example) do
-      bug_c = Bug.new(complete_attributes)
-      reporter = User.create!(email: 'jon@example.com', password: '29funaoiw3fuq345!@')
-      assignee = User.create!(email: 'jane@example.com', password: '29funaoiw3fuq345!@')
-      bug_c.update!(reporter_id: reporter.id, assignee_id: assignee.id)
+      bug_c = create(:bug, tags: 'foo, bar, baz', assignee: create(:user))
       @complete_bug = assign :bug, bug_c
       render
     end
@@ -50,9 +40,7 @@ RSpec.describe 'bugs/edit', type: :view do
 
   context 'with a valid but incomplete bug' do
     before(:example) do
-      bug_p = Bug.new(valid_attributes)
-      reporter = User.create!(email: 'sally@example.org', password: '2p39@4hal$f8h3noiu-&nae4y')
-      bug_p.update!(reporter_id: reporter.id)
+      bug_p = create(:bug, closed: nil)
       @partial_bug = assign :bug, bug_p
       render
     end
