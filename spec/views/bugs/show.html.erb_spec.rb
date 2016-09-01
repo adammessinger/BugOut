@@ -1,18 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'bugs/show', type: :view do
-  let(:complete_attributes) do
-    { title: 'Title', description: 'My description', closed: false, tags: 'foo, bar, baz' }
-  end
-
   context 'with a complete bug' do
     before(:example) do
-      bug_c = Bug.new(complete_attributes)
-      bug_c.create_assignee! email: 'jon@example.com', password: '29funaoiw3fuq345!@'
-      bug_c.create_reporter! email: 'jane@example.com', password: '29funaoiw3fuq345!@'
-      bug_c.save!
-      @complete_bug = assign :bug, bug_c
-      @is_closed = tf_to_yn @complete_bug.closed
+      bug_c = create(:bug, description: Faker::Lorem.paragraph(2), assignee: create(:user))
+      @complete_bug = assign(:bug, bug_c)
+      @is_closed = tf_to_yn(@complete_bug.closed)
       render
     end
 
@@ -30,9 +23,7 @@ RSpec.describe 'bugs/show', type: :view do
 
   context 'with an unassigned bug' do
     before(:example) do
-      bug_ua = Bug.new(complete_attributes)
-      bug_ua.create_reporter! email: 'jose@example.com', password: 'pq48hunavb7a0973'
-      bug_ua.save!
+      bug_ua = create(:bug, description: Faker::Lorem.paragraph(2))
       @unassigned_bug = assign :bug, bug_ua
       render
     end
@@ -48,9 +39,7 @@ RSpec.describe 'bugs/show', type: :view do
 
   context 'with an unclosed bug' do
     before(:example) do
-      bug_uncl = Bug.new(complete_attributes)
-      bug_uncl.create_reporter! email: 'jose@example.com', password: 'pq48hunavb7a0973'
-      bug_uncl.save!
+      bug_uncl = create(:bug, description: Faker::Lorem.paragraph(2), closed: false)
       @unclosed_bug = assign :bug, bug_uncl
       @is_closed = tf_to_yn @unclosed_bug.closed
       render
@@ -63,13 +52,9 @@ RSpec.describe 'bugs/show', type: :view do
 
   context 'with a closed bug' do
     before(:example) do
-      closed_atts = complete_attributes.dup
-      closed_atts[:closed] = true
-      bug_cl = Bug.new(closed_atts)
-      bug_cl.create_reporter! email: 'jose@example.com', password: 'pq48hunavb7a0973'
-      bug_cl.save!
+      bug_cl = create(:bug, description: Faker::Lorem.paragraph(2), closed: true)
       @closed_bug = assign :bug, bug_cl
-      @is_closed = tf_to_yn closed_atts[:closed]
+      @is_closed = tf_to_yn(bug_cl.closed)
       render
     end
 
