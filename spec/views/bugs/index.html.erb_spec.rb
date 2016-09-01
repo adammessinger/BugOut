@@ -1,16 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'bugs/index', type: :view do
-  # This should return the minimal set of attributes required to create a valid
-  # Bug. Remember to keep this up to date (or better, switch to fixtures or FactoryGirl).
-  let(:valid_attributes) do
-    { title: 'My Title', description: 'My Text', closed: false, reporter_id: 1 }
-  end
-
   context 'with 0 bugs' do
     before(:example) do
-      # NOTE: see https://github.com/rspec/rspec-rails/issues/396
-      view.lookup_context.prefixes << 'application'
       assign :bugs, []
       render
     end
@@ -35,7 +27,7 @@ RSpec.describe 'bugs/index', type: :view do
 
   context 'with 1 bug' do
     before(:example) do
-      assign :bugs, [Bug.create!(valid_attributes)]
+      assign :bugs, [create(:bug)]
       render
     end
 
@@ -47,7 +39,11 @@ RSpec.describe 'bugs/index', type: :view do
   context 'with 2 bugs' do
     before(:example) do
       bugs = []
-      2.times { bugs << Bug.create!(valid_attributes) }
+      @title = 'A Perfectly Cromulent Title'
+      2.times do
+        uniquifier = (rand * 10_000).to_i
+        bugs << create(:bug, title: "#{@title} #{uniquifier}", closed: false)
+      end
       assign :bugs, bugs
       render
     end
@@ -69,7 +65,7 @@ RSpec.describe 'bugs/index', type: :view do
 
     it 'renders a list of all bugs' do
       assert_select 'tr > td:nth-child(1)', text: /^\d+$/, count: 2
-      assert_select 'tr > td:nth-child(2)', text: valid_attributes[:title], count: 2
+      assert_select 'tr > td:nth-child(2)', text: /^#{@title} \d+$/, count: 2
       assert_select 'tr > td:nth-child(3)', text: 'unassigned', count: 2
       assert_select 'tr > td:nth-child(4)', text: '', count: 2
       assert_select 'tr > td:nth-child(5)', text: 'No', count: 2
@@ -83,17 +79,18 @@ RSpec.describe 'bugs/index', type: :view do
   context 'with closed and unclosed bugs' do
     before(:example) do
       bugs = []
+      @title = 'A noble spirit embiggens the smallest title.'
       [true, false].each do |b|
-        valid_attributes[:closed] = b
-        bugs << Bug.create!(valid_attributes)
+        uniquifier = (rand * 10_000).to_i
+        bugs << create(:bug, title: "#{@title} #{uniquifier}", closed: b)
       end
       assign :bugs, bugs
       render
     end
 
     it 'wraps closed bug titles in <s> tag' do
-      assert_select 'tr > td:nth-child(2)', text: valid_attributes[:title], count: 2
-      assert_select 'tr > td:nth-child(2) s', text: valid_attributes[:title], count: 1
+      assert_select 'tr > td:nth-child(2)', text: /^#{@title} \d+$/, count: 2
+      assert_select 'tr > td:nth-child(2) s', /^#{@title} \d+$/, count: 1
     end
 
     it 'gives the "bg-success" class to "Closed?" cell for closed bugs' do
@@ -117,8 +114,7 @@ RSpec.describe 'bugs/index', type: :view do
     before(:example) do
       bugs = []
       ['urgent, wibbly, cromulent', nil].each do |t|
-        valid_attributes[:tags] = t
-        bugs << Bug.create!(valid_attributes)
+        bugs << create(:bug, tags: t)
       end
       assign :bugs, bugs
       render
@@ -135,10 +131,8 @@ RSpec.describe 'bugs/index', type: :view do
 
   context 'with assigned and unassigned bugs' do
     before(:example) do
-      assigned_bug = Bug.new(valid_attributes)
-      assigned_bug.create_assignee! email: 'jon@example.com', password: '29funaoiw3fuq345!@'
-      assigned_bug.save!
-      assign :bugs, [assigned_bug, Bug.create!(valid_attributes)]
+      assigned_bug = create(:bug, assignee: create(:user, email: 'jon@example.com'))
+      assign :bugs, [assigned_bug, create(:bug)]
       render
     end
 
