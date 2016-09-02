@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :comment do
-    body 'MyText'
-    bug nil
-    author nil
+    bug
+    author
+    body { Faker::Hipster.paragraph(2) }
   end
 end
