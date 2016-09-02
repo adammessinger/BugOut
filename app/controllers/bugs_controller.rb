@@ -60,6 +60,9 @@ class BugsController < ApplicationController
   # DELETE /bugs/1
   # DELETE /bugs/1.json
   def destroy
+    if @bug.assignee_or_comments?
+      return redirect_unauthorized(:delete, 'You can’t delete a bug that’s been assigned or has comments.')
+    end
     return redirect_unauthorized(:delete) unless authorized?
 
     @bug.destroy
@@ -76,8 +79,8 @@ class BugsController < ApplicationController
     @bug = Bug.find(params[:id])
   end
 
-  def redirect_unauthorized(action)
-    error_msg = "Only a bug’s reporter or assignee (or an admin) can #{action} it."
+  def redirect_unauthorized(action, error_msg = nil)
+    error_msg ||= "Only a bug’s reporter or assignee (or an admin) can #{action} it."
     redirect_to @bug, error: error_msg
   end
 
