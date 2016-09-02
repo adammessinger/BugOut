@@ -172,4 +172,24 @@ describe Bug, type: :model do
       expect(@generic_bug.owned_by?).to(be nil)
     end
   end
+
+  describe '#assignee_or_comments?' do
+    it 'returns false if no assignee and no comments' do
+      expect(create(:bug).assignee_or_comments?).to(be false)
+    end
+
+    it 'returns true if bug is assigned' do
+      expect(create(:bug, assignee: create(:user)).assignee_or_comments?).to(be true)
+    end
+
+    it 'returns true if bug has comments' do
+      expect(create(:bug_with_comments).assignee_or_comments?).to(be true)
+    end
+
+    it 'returns true if bug has comments AND is assigned' do
+      bug = create(:bug_with_comments, assignee: create(:user))
+
+      expect(bug.assignee_or_comments?).to(be true)
+    end
+  end
 end
