@@ -17,4 +17,8 @@ class Bug < ActiveRecord::Base
     return nil unless user.is_a?(User)
     user == reporter || user == assignee
   end
+
+  def assignee_or_comments?
+    comments.any? || assignee.present?
+  end
 end
