@@ -6,14 +6,14 @@
   <dt>Reporter:</dt>
   <dd>
     <span class="<%= @bug.reporter ? '' : 'bg-warning text-warning' %>">
-      <%= @bug.reporter ? @bug.reporter.email : 'unassigned' %>
+      <%= @bug.reporter ? @bug.reporter : 'unassigned' %>
     </span>
   </dd>
 
   <dt>Assignee:</dt>
   <dd>
     <span class="<%= @bug.assignee ? '' : 'bg-warning text-warning' %>">
-      <%= @bug.assignee ? @bug.assignee.email : 'unassigned' %>
+      <%= @bug.assignee ? @bug.assignee : 'unassigned' %>
     </span>
   </dd>
 

@@ -20,11 +20,11 @@
   </div>
   <div class="form-group">
     <label for="bug_reporter">Reporter</label>
-    <p class="form-control-static" id="bug_reporter"><%= @bug.reporter.email %></p>
+    <p class="form-control-static" id="bug_reporter"><%= @bug.reporter %></p>
   </div>
   <div class="form-group">
     <%= f.label :assignee_id %>
-    <%= f.collection_select :assignee_id, User.all, :id, :email, {include_blank: 'Unassigned'}, {class: 'form-control'} %>
+    <%= f.collection_select :assignee_id, User.all, :id, :name, {include_blank: 'Unassigned'}, {class: 'form-control'} %>
   </div>
   <div class="form-group">
     <%= f.label :description %>

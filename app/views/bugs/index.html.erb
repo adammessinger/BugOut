@@ -42,7 +42,7 @@
             <%= link_to (bug.closed ? content_tag(:s, bug.title) : bug.title), bug %>
           </td>
           <td class="<%= bug.assignee ? '' : 'bg-warning text-warning' %>">
-            <%= bug.assignee ? bug.assignee.email : 'unassigned' %>
+            <%= bug.assignee ? bug.assignee : 'unassigned' %>
           </td>
           <td><%= bug.tags %></td>
           <td class="<%= bug.closed ? 'bg-success' : 'bg-danger' %>">
