@@ -131,17 +131,17 @@ RSpec.describe 'bugs/index', type: :view do
 
   context 'with assigned and unassigned bugs' do
     before(:example) do
-      assigned_bug = create(:bug, assignee: create(:user, email: 'jon@example.com'))
-      assign :bugs, [assigned_bug, create(:bug)]
+      @assigned_bug = create(:bug, assignee: create(:user))
+      assign :bugs, [@assigned_bug, create(:bug)]
       render
     end
 
     it 'shows asignee email address for assigned bugs' do
-      assert_select 'tr > td:nth-child(3)', text: 'jon@example.com', count: 1
+      assert_select 'tr > td:nth-child(3)', @assigned_bug.assignee.to_s, count: 1
     end
 
     it 'gives no class to assigned Asignee cell' do
-      assert_select 'tr > td:nth-child(3)[class=""]', text: 'jon@example.com', count: 1
+      assert_select 'tr > td:nth-child(3)[class=""]', @assigned_bug.assignee.to_s, count: 1
     end
 
     it 'shows "unassigned" for unassigned bugs' do
