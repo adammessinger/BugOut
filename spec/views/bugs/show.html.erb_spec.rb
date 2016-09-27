@@ -15,8 +15,8 @@ RSpec.describe 'bugs/show', type: :view do
       expect(rendered).to(match(/<dt>Closed:<\/dt>\s+?<dd>\s+?<span class=".+?">\s+?#{@is_closed}\s+?<\/span>\s+?<\/dd>/))
       # NOTE: Reporter and Assignee use a different regex from Closed for the inner
       # span class because they lack a span class when those attributes have a value.
-      expect(rendered).to(match(/<dt>Reporter:<\/dt>\s+?<dd>\s+?<span class="">\s+?#{@complete_bug.reporter.email}\s+?<\/span>\s+?<\/dd>/))
-      expect(rendered).to(match(/<dt>Assignee:<\/dt>\s+?<dd>\s+?<span class="">\s+?#{@complete_bug.assignee.email}\s+?<\/span>\s+?<\/dd>/))
+      expect(rendered).to(match(/<dt>Reporter:<\/dt>\s+?<dd>\s+?<span class="">\s+?#{@complete_bug.reporter}\s+?<\/span>\s+?<\/dd>/))
+      expect(rendered).to(match(/<dt>Assignee:<\/dt>\s+?<dd>\s+?<span class="">\s+?#{@complete_bug.assignee}\s+?<\/span>\s+?<\/dd>/))
       expect(rendered).to(match(/<dt>Tags:<\/dt>\s+?<dd>#{@complete_bug.tags}<\/dd>/))
     end
   end
