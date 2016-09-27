@@ -8,6 +8,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable,
     :rememberable, :trackable, :validatable
 
+  validates(:email, presence: true)
+  validates(:email, uniqueness: { case_sensitive: false })
+  validates(:name, presence: true)
+  validates(:name, length: { in: 2..255 })
+
   def to_s
     name
   end
