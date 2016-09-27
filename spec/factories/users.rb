@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:email) do |n|
       "#{Faker::Internet.user_name}#{n}@example." + %w(com net org edu).sample
     end
-    password Faker::Internet.password
+    name { [true, false].sample ? Faker::Name.name_with_middle : Faker::Name.name }
+    password { Faker::Internet.password }
   end
 end
