@@ -29,7 +29,7 @@ RSpec.describe 'bugs/edit', type: :view do
       assert_select 'form[action=?][method=?]', bug_path(@complete_bug), 'post' do
         assert_select 'input#bug_title[value=?]', @complete_bug.title
         assert_select 'input[type="hidden"]#bug_reporter_id[value=?]', @complete_bug.reporter_id.to_s
-        assert_select 'p#bug_reporter', @complete_bug.reporter
+        assert_select 'p#bug_reporter', @complete_bug.reporter.to_s
         assert_select 'select#bug_assignee_id > option[selected][value=?]', @complete_bug.assignee_id.to_s
         assert_select 'textarea#bug_description', text: @complete_bug.description
         assert_select 'input#bug_tags[value=?]', @complete_bug.tags
@@ -53,7 +53,7 @@ RSpec.describe 'bugs/edit', type: :view do
       assert_select 'form[action=?][method=?]', bug_path(@partial_bug), 'post' do
         assert_select 'input#bug_title[value=?]', @partial_bug.title
         assert_select 'input[type="hidden"]#bug_reporter_id[value=?]', @partial_bug.reporter_id.to_s
-        assert_select 'p#bug_reporter', @partial_bug.reporter
+        assert_select 'p#bug_reporter', @partial_bug.reporter.to_s
         assert_select 'select#bug_assignee_id > option[selected]', 0
         assert_select 'textarea#bug_description', text: @partial_bug.description
         assert_select 'input#bug_tags', 1
